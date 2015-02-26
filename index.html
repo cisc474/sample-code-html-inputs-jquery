@@ -6,13 +6,23 @@
 	    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
 	</head>
     <body>
+    	<!-- For this project I wanted to demonstrate several ways that users 
+    	can input data.  My divs are a bit mechanical but straight forward
+    	
+    	I have a label for each input and a paragraph on the next line to 
+    	display the output.  Missing from my collection is type="color", 
+    	"password", "tel", "email", "range", and some other less frequent ones
+    	-->
     	<div class="input-wrapper">
-    		<label for="input-text">Text type input:</label>
+    		<label for="input-text">Text input:</label>
     		<input type="text" class="input-text"></input>
     		<p class="input-text-output"></p>
     	</div>
+    	<!-- I also show some of the HTML5 number attributes, max, min, step
+    	This also demonstrates the only default value on the page, I set it to 4
+    	-->
     	<div class="input-wrapper">
-    		<label for="input-number">Number type input:</label>
+    		<label for="input-number">Number input:</label>
     		<input type="number" class="input-number" min="0" max="10" step="2" value="4"></input>
     		<p class="input-number-output"></p>
     	</div>
@@ -31,6 +41,10 @@
     		<input type="file" class="input-file"></input>
     		<p class="input-file-output"></p>
     	</div>
+    	
+    	<!-- Note that radio buttons are funky, they need multiple inputs only one of 
+    	whom can be :checked at the same time, give it a different name it is now 
+    	part of a different group.-->
     	<div class="input-wrapper">
     		<label for="input-radio">Radio input:</label>
     		<input type="radio" class="input-radio" name="radio-group" value="Value1">Value1</input>
@@ -40,22 +54,47 @@
     		<p class="input-radio-output"></p>
     	</div>
     	<script>
+        /* 
+        Always wrap your jQuery in $(document).ready as a callback, it is the 
+        worst bug to debug if you think an event should be wired but your javascript 
+        ran before the page loaded (so the target didn't exist yet).
+        */
     	  $(document).ready(function(){
+    	  	//Each of these will have some sort of DOM event it listens for on 
+    	  	//the appropriate input box.  I choose a few different styles to show
+    	  	//you some range of the dom events for inputs.
+    	  	//Also each example demonstrates how to get some of the value out of 
+    	  	//the specific type of input.
     	  	$(".input-text").keyup(function(){
     	  		$(".input-text-output").html($(".input-text").val());
     	  	});
+    	  	
     	  	$(".input-number").change(function(){
     	  		$(".input-number-output").html($(".input-number").val());
     	  	});
+    	  	
+    	  	//This one is unusual in that I am checking for the "checked" attribute
+    	  	//Also I only check on a change, so the program begins with nothing 
+    	  	//displayed, that was a choice.  The || is a quick way of printing "false"
+    	  	//when box is not checked.  It's a nice trick for other default needing situations.
     	  	$(".input-checkbox").change(function(){
     	  		$(".input-checkbox-output").html($(".input-checkbox").is(":checked") || "false");
     	  	});
+    	  	
+    	  	//Blur is one of my favorite DOM events although I don't think many 
+    	  	//experts use it.  I like blur for times when I don't want to be 
+    	  	//intrusive (like keyup).  The reason it is not the best overall is 
+    	  	//that people don't usually expect an action when they click away.
     	  	$(".input-date").blur(function(){
     	  		$(".input-date-output").html($(".input-date").val());
     	  	});
+    	  	
     	  	$(".input-file").change(function(){
     	  		$(".input-file-output").html($(".input-file").val());
     	  	});
+    	  	
+    	  	//Here we use the :checked property in the CSS selector since I want
+    	  	//to know WHICH radio is checked.
     	  	$(".input-radio").change(function(){
     	  		$(".input-radio-output").html($(".input-radio:checked").val());
     	  	});
